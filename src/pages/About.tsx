@@ -6,7 +6,6 @@ interface AboutProps {
 }
 
 export const About = ({ onNavigate }: AboutProps) => {
-  return <div>About Page Under development</div>
   const heroRef = useScrollReveal();
   const journeyRef = useScrollReveal();
   const clickRef = useScrollReveal();

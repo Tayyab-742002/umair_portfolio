@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { CustomCursor } from './components/CustomCursor';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
@@ -32,12 +31,6 @@ function App() {
     }, 300);
   };
 
-  useEffect(() => {
-    document.body.style.cursor = 'none';
-    return () => {
-      document.body.style.cursor = 'auto';
-    };
-  }, []);
 
   const renderPage = () => {
     const pageProps = { onNavigate: handleNavigate };
@@ -71,7 +64,6 @@ function App() {
 
   return (
     <div className="grain bg-dark min-h-screen">
-      <CustomCursor />
       <Navigation currentPage={currentPage} onNavigate={handleNavigate} />
 
       <div
