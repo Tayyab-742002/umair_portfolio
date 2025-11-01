@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
@@ -11,70 +11,44 @@ import { Contact } from './pages/Contact';
 import { Booking } from './pages/Booking';
 import { Quiz } from './pages/Quiz';
 import { QuizResults } from './pages/QuizResults';
+import { useEffect } from 'react';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  const handleNavigate = (page: string) => {
-    if (page === currentPage) return;
-
-    setIsTransitioning(true);
-
-    setTimeout(() => {
-      setCurrentPage(page);
-      window.scrollTo({ top: 0, behavior: 'instant' });
-
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 100);
-    }, 300);
-  };
-
-
-  const renderPage = () => {
-    const pageProps = { onNavigate: handleNavigate };
-
-    switch (currentPage) {
-      case 'home':
-        return <Home {...pageProps} />;
-      case 'about':
-        return <About {...pageProps} />;
-      case 'services':
-        return <Services {...pageProps} />;
-      case 'case-studies':
-        return <CaseStudies {...pageProps} />;
-      case 'self-audits':
-        return <SelfAudits {...pageProps} />;
-      case 'blog':
-        return <Blog {...pageProps} />;
-      case 'contact':
-        return <Contact {...pageProps} />;
-      case 'booking':
-        return <Booking {...pageProps} />;
-      case 'quiz-results':
-        return <QuizResults {...pageProps} />;
-      default:
-        if (currentPage.startsWith('quiz-')) {
-          return <Quiz quizId={currentPage} {...pageProps} />;
-        }
-        return <Home {...pageProps} />;
-    }
-  };
-
   return (
-    <div className="grain bg-dark min-h-screen">
-      <Navigation currentPage={currentPage} onNavigate={handleNavigate} />
+    <BrowserRouter>
+      <ScrollToTop />
+      <div className="grain bg-dark min-h-screen">
+        <Navigation />
 
-      <div
-        className={`transition-opacity duration-300 ${
-          isTransitioning ? 'opacity-0' : 'opacity-100'
-        }`}
-      >
-        <main>{renderPage()}</main>
-        <Footer onNavigate={handleNavigate} />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/case-studies" element={<CaseStudies />} />
+            <Route path="/self-audits" element={<SelfAudits />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/booking" element={<Booking />} />
+            <Route path="/quiz/:quizId" element={<Quiz />} />
+            <Route path="/quiz-results" element={<QuizResults />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </main>
+
+        <Footer />
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 

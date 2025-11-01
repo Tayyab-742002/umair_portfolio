@@ -1,11 +1,9 @@
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useNavigate } from 'react-router-dom';
 import { Mail, Linkedin, Instagram, Twitter, Send } from 'lucide-react';
 
-interface ContactProps {
-  onNavigate: (page: string) => void;
-}
-
-export const Contact = ({ onNavigate }: ContactProps) => {
+export const Contact = () => {
+  const navigate = useNavigate();
   return <div>Contact Page Under development</div>
   const heroRef = useScrollReveal();
   const formRef = useScrollReveal();
@@ -111,7 +109,7 @@ export const Contact = ({ onNavigate }: ContactProps) => {
                     We'll explore where you are, where you want to be, and how I can help.
                   </p>
                   <button
-                    onClick={() => onNavigate('booking')}
+                    onClick={() => navigate('/booking')}
                     className="btn-secondary"
                   >
                     View Calendar
@@ -194,7 +192,7 @@ export const Contact = ({ onNavigate }: ContactProps) => {
               Take one of the self-audits to gain clarity on where you are and what you need.
             </p>
             <button
-              onClick={() => onNavigate('self-audits')}
+              onClick={() => navigate('/self-audits')}
               className="btn-secondary"
             >
               Explore Self-Audits

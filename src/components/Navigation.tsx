@@ -1,26 +1,21 @@
 import { useState } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
-interface NavigationProps {
-  currentPage: string;
-  onNavigate: (page: string) => void;
-}
-
-export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
+export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { label: 'Home', path: 'home' },
-    { label: 'About', path: 'about' },
-    { label: 'Services', path: 'services' },
-    { label: 'Case Studies', path: 'case-studies' },
-    { label: 'Self-Audits', path: 'self-audits' },
-    { label: 'Blog', path: 'blog' },
-    { label: 'Contact', path: 'contact' },
+    { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
+    { label: 'Services', path: '/services' },
+    { label: 'Case Studies', path: '/case-studies' },
+    { label: 'Self-Audits', path: '/self-audits' },
+    { label: 'Blog', path: '/blog' },
+    { label: 'Contact', path: '/contact' },
   ];
 
-  const handleNavigate = (path: string) => {
-    onNavigate(path);
+  const handleLinkClick = () => {
     setIsOpen(false);
   };
 
@@ -28,41 +23,45 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-dark/80 backdrop-blur-lg border-b border-light/10">
       <div className="container-custom">
         <div className="flex items-center justify-between h-20">
-          <button
-            onClick={() => handleNavigate('home')}
+          <Link
+            to="/"
             className="text-2xl font-light tracking-tight text-white hover:text-blue transition-colors"
           >
             Umair Saeed
-          </button>
+          </Link>
 
           <div className="hidden lg:flex items-center gap-10">
             {navItems.map((item) => (
-              <button
+              <NavLink
                 key={item.path}
-                onClick={() => handleNavigate(item.path)}
-                className={`relative text-sm tracking-wide transition-colors group ${
-                  currentPage === item.path ? 'text-white' : 'text-light/60 hover:text-white'
-                }`}
+                to={item.path}
+                className={({ isActive }) =>
+                  `relative text-sm tracking-wide transition-colors group ${
+                    isActive ? 'text-white' : 'text-light/60 hover:text-white'
+                  }`
+                }
               >
-                {item.label}
-                <span
-                  className={`absolute -bottom-1 left-0 h-px bg-blue transition-all duration-300 ${
-                    currentPage === item.path ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}
-                />
-              </button>
+                {({ isActive }) => (
+                  <>
+                    {item.label}
+                    <span
+                      className={`absolute -bottom-1 left-0 h-px bg-blue transition-all duration-300 ${
+                        isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                    />
+                  </>
+                )}
+              </NavLink>
             ))}
-            <button
-              onClick={() => handleNavigate('booking')}
-              className="btn-primary text-sm"
-            >
+            <Link to="/booking" className="btn-primary text-sm">
               Book a Call
-            </button>
+            </Link>
           </div>
 
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden text-white"
+            aria-label="Toggle menu"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -74,22 +73,26 @@ export const Navigation = ({ currentPage, onNavigate }: NavigationProps) => {
           <div className="container-custom py-8">
             <div className="flex flex-col gap-6">
               {navItems.map((item) => (
-                <button
+                <NavLink
                   key={item.path}
-                  onClick={() => handleNavigate(item.path)}
-                  className={`text-left text-lg transition-colors ${
-                    currentPage === item.path ? 'text-white' : 'text-light/60'
-                  }`}
+                  to={item.path}
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    `text-left text-lg transition-colors ${
+                      isActive ? 'text-white' : 'text-light/60'
+                    }`
+                  }
                 >
                   {item.label}
-                </button>
+                </NavLink>
               ))}
-              <button
-                onClick={() => handleNavigate('booking')}
+              <Link
+                to="/booking"
+                onClick={handleLinkClick}
                 className="btn-primary text-center mt-4"
               >
                 Book a Call
-              </button>
+              </Link>
             </div>
           </div>
         </div>

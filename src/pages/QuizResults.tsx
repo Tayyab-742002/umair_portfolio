@@ -1,20 +1,17 @@
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
 
-interface QuizResultsProps {
-  onNavigate: (page: string) => void;
-}
-
-export const QuizResults = ({ onNavigate }: QuizResultsProps) => {
-  return <div>Quizzez Page Under development</div>
+export const QuizResults = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const heroRef = useScrollReveal();
   const interpretationRef = useScrollReveal();
   const nextStepsRef = useScrollReveal();
 
-  const params = new URLSearchParams(window.location.search);
-  const score = params.get('score') || '0';
-  const level = params.get('level') || 'Unknown';
-  const name = params.get('name') || 'there';
+  const score = searchParams.get('score') || '0';
+  const level = searchParams.get('level') || 'Unknown';
+  const name = searchParams.get('name') || 'there';
 
   const interpretations: { [key: string]: any } = {
     'Superpower Star': {
@@ -166,7 +163,7 @@ export const QuizResults = ({ onNavigate }: QuizResultsProps) => {
                   the more targeted your transformation can be.
                 </p>
                 <button
-                  onClick={() => onNavigate('self-audits')}
+                  onClick={() => navigate('/self-audits')}
                   className="text-blue hover:text-white transition-colors"
                 >
                   View All Audits →
@@ -188,7 +185,7 @@ export const QuizResults = ({ onNavigate }: QuizResultsProps) => {
                   Book a free clarity call to explore the 12-week Reinvention Journey and see if it's right for you.
                 </p>
                 <button
-                  onClick={() => onNavigate('booking')}
+                  onClick={() => navigate('/booking')}
                   className="btn-primary group"
                 >
                   Book Your Free Clarity Call

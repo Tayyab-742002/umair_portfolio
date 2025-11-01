@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, TrendingUp, Award, Star } from "lucide-react";
 
 const HomeProofSection = () => {
@@ -31,9 +32,7 @@ const HomeProofSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const onNavigate = (section) => {
-    console.log(`Navigate to: ${section}`);
-  };
+  const navigate = useNavigate();
 
   const testimonials = [
     {
@@ -287,7 +286,7 @@ const HomeProofSection = () => {
               </p>
 
               <button
-                onClick={() => onNavigate("case-studies")}
+                onClick={() => navigate("/case-studies")}
                 className="group px-12 py-6 bg-white text-black text-sm font-medium tracking-wide uppercase transition-all duration-300 hover:bg-white/90"
               >
                 <span className="flex items-center justify-center gap-4">

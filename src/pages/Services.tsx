@@ -1,11 +1,9 @@
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useNavigate } from 'react-router-dom';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 
-interface ServicesProps {
-  onNavigate: (page: string) => void;
-}
-
-export const Services = ({ onNavigate }: ServicesProps) => {
+export const Services = () => {
+  const navigate = useNavigate();
   return <div>Service Page Under development</div>
   const heroRef = useScrollReveal();
   const whoRef = useScrollReveal();
@@ -179,7 +177,7 @@ export const Services = ({ onNavigate }: ServicesProps) => {
                 Payment plans available. Apply for a free clarity call to discuss.
               </p>
               <button
-                onClick={() => onNavigate('booking')}
+                onClick={() => navigate('/booking')}
                 className="btn-primary text-lg group"
               >
                 Book Your Free Clarity Call

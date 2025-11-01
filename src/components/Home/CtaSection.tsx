@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const HomeCTASection = () => {
   const sectionRef = useRef(null);
@@ -12,7 +13,7 @@ const HomeCTASection = () => {
         if (entry.isIntersecting) {
           setIsVisible(true);
           if (videoRef.current) {
-            videoRef.current
+            (videoRef.current as HTMLVideoElement)
               .play()
               .catch((e) => console.log("Video autoplay failed:", e));
           }
@@ -28,9 +29,7 @@ const HomeCTASection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const onNavigate = (section) => {
-    console.log(`Navigate to: ${section}`);
-  };
+  const navigate = useNavigate();
 
   return (
     <section
@@ -87,7 +86,7 @@ const HomeCTASection = () => {
           {/* Primary CTA - Bold and Simple */}
           <div className="flex justify-center mb-10">
             <button
-              onClick={() => onNavigate("self-audits")}
+              onClick={() => navigate("/self-audits")}
               className="group relative px-10 py-5 bg-white text-black text-sm font-medium tracking-wide uppercase overflow-hidden transition-all duration-300 hover:bg-white/95 hover:scale-[1.02] active:scale-100"
             >
               <span className="relative z-10 flex items-center gap-3">

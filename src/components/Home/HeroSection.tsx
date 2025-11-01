@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-const HomeHeroSection = ({
-  onNavigate,
-}: {
-  onNavigate: (section: string) => void;
-}) => {
+const HomeHeroSection = () => {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -93,7 +91,7 @@ const HomeHeroSection = ({
               }`}
             >
               <button
-                onClick={() => onNavigate("self-audits")}
+                onClick={() => navigate("/self-audits")}
                 className="group relative px-8 py-4 bg-white text-black font-medium rounded-none overflow-hidden transition-all duration-300 hover:bg-white/90"
               >
                 <span className="relative z-10 flex items-center justify-center gap-3 text-sm tracking-wide">
@@ -103,7 +101,7 @@ const HomeHeroSection = ({
               </button>
 
               <button
-                onClick={() => onNavigate("booking")}
+                onClick={() => navigate("/booking")}
                 className="px-8 py-4 bg-transparent text-white font-medium rounded-none border border-white/20 transition-all duration-300 hover:bg-white/5 hover:border-white/40"
               >
                 <span className="text-sm tracking-wide">

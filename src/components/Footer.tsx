@@ -1,17 +1,14 @@
+import { Link } from 'react-router-dom';
 import { Mail, Linkedin, Instagram, Twitter } from 'lucide-react';
 
-interface FooterProps {
-  onNavigate: (page: string) => void;
-}
-
-export const Footer = ({ onNavigate }: FooterProps) => {
+export const Footer = () => {
   const quickLinks = [
-    { label: 'About', path: 'about' },
-    { label: 'Services', path: 'services' },
-    { label: 'Case Studies', path: 'case-studies' },
-    { label: 'Self-Audits', path: 'self-audits' },
-    { label: 'Blog', path: 'blog' },
-    { label: 'Contact', path: 'contact' },
+    { label: 'About', path: '/about' },
+    { label: 'Services', path: '/services' },
+    { label: 'Case Studies', path: '/case-studies' },
+    { label: 'Self-Audits', path: '/self-audits' },
+    { label: 'Blog', path: '/blog' },
+    { label: 'Contact', path: '/contact' },
   ];
 
   return (
@@ -44,12 +41,12 @@ export const Footer = ({ onNavigate }: FooterProps) => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.path}>
-                  <button
-                    onClick={() => onNavigate(link.path)}
+                  <Link
+                    to={link.path}
                     className="text-light/60 text-sm hover:text-white transition-colors"
                   >
                     {link.label}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -59,28 +56,28 @@ export const Footer = ({ onNavigate }: FooterProps) => {
             <h4 className="text-white font-medium mb-4">Resources</h4>
             <ul className="space-y-3">
               <li>
-                <button
-                  onClick={() => onNavigate('self-audits')}
+                <Link
+                  to="/self-audits"
                   className="text-light/60 text-sm hover:text-white transition-colors"
                 >
                   Take a Self-Audit
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('blog')}
+                <Link
+                  to="/blog"
                   className="text-light/60 text-sm hover:text-white transition-colors"
                 >
                   Latest Articles
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('booking')}
+                <Link
+                  to="/booking"
                   className="text-light/60 text-sm hover:text-white transition-colors"
                 >
                   Book a Clarity Call
-                </button>
+                </Link>
               </li>
             </ul>
           </div>

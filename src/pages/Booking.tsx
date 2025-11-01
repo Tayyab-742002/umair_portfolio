@@ -1,11 +1,9 @@
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, Video, CheckCircle2 } from 'lucide-react';
 
-interface BookingProps {
-  onNavigate: (page: string) => void;
-}
-
-export const Booking = ({ onNavigate }: BookingProps) => {
+export const Booking = () => {
+  const navigate = useNavigate();
   return <div>Booking Page Under development</div>
   const heroRef = useScrollReveal();
   const calendarRef = useScrollReveal();
@@ -144,7 +142,7 @@ export const Booking = ({ onNavigate }: BookingProps) => {
                   you're starting from, and we can discuss your results on the call.
                 </p>
                 <button
-                  onClick={() => onNavigate('self-audits')}
+                  onClick={() => navigate('/self-audits')}
                   className="mt-4 text-blue hover:text-white transition-colors"
                 >
                   View Self-Audits →
@@ -181,7 +179,7 @@ export const Booking = ({ onNavigate }: BookingProps) => {
               If you'd prefer to send a message before booking, feel free to reach out.
             </p>
             <button
-              onClick={() => onNavigate('contact')}
+              onClick={() => navigate('/contact')}
               className="btn-secondary"
             >
               Contact Me

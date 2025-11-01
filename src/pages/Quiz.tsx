@@ -1,11 +1,7 @@
-import { useState } from 'react';
-import { useScrollReveal } from '../hooks/useScrollReveal';
-import { ArrowRight, X } from 'lucide-react';
-
-interface QuizProps {
-  quizId: string;
-  onNavigate: (page: string) => void;
-}
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useScrollReveal } from "../hooks/useScrollReveal";
+import { ArrowRight, X } from "lucide-react";
 
 interface QuizData {
   title: string;
@@ -22,75 +18,85 @@ interface QuizData {
   }[];
 }
 
-export const Quiz = ({ quizId, onNavigate }: QuizProps) => {
-  return <div>Quiz Page Under development</div>
+export const Quiz = () => {
+  const { quizId } = useParams<{ quizId: string }>();
+  const navigate = useNavigate();
   const heroRef = useScrollReveal();
   const [scores, setScores] = useState<{ [key: string]: number }>({});
   const [showModal, setShowModal] = useState(false);
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  
+  const currentQuizId = quizId ? `quiz-${quizId}` : "quiz-1";
 
   const quizData: { [key: string]: QuizData } = {
-    'quiz-1': {
-      title: 'Discover Your Core Needs',
-      description: 'Are You Shining at Your Best or Just Staying Busy?',
-      instructions: 'Rate each statement from 1-3 based on how true it feels right now.',
+    "quiz-1": {
+      title: "Discover Your Core Needs",
+      description: "Are You Shining at Your Best or Just Staying Busy?",
+      instructions:
+        "Rate each statement from 1-3 based on how true it feels right now.",
       sections: [
         {
-          title: 'Part 1: Significance & Recognition',
+          title: "Part 1: Significance & Recognition",
           questions: [
-            'I feel seen and valued for my contributions',
-            'I receive recognition that matches my effort',
-            'My work makes a meaningful impact that others acknowledge',
+            "I feel seen and valued for my contributions",
+            "I receive recognition that matches my effort",
+            "My work makes a meaningful impact that others acknowledge",
           ],
         },
         {
-          title: 'Part 2: Connection & Belonging',
+          title: "Part 2: Connection & Belonging",
           questions: [
-            'I have deep, authentic relationships in my life',
-            'I feel understood by the people closest to me',
-            'I belong to a community that shares my values',
+            "I have deep, authentic relationships in my life",
+            "I feel understood by the people closest to me",
+            "I belong to a community that shares my values",
           ],
         },
         {
-          title: 'Part 3: Growth & Expansion',
+          title: "Part 3: Growth & Expansion",
           questions: [
-            'I am learning and evolving regularly',
-            'I feel challenged in ways that excite me',
-            'My life has a sense of forward momentum',
+            "I am learning and evolving regularly",
+            "I feel challenged in ways that excite me",
+            "My life has a sense of forward momentum",
           ],
         },
         {
-          title: 'Part 4: Contribution & Purpose',
+          title: "Part 4: Contribution & Purpose",
           questions: [
-            'I know my work serves something bigger than myself',
-            'I feel fulfilled by how I contribute to others',
-            'My daily actions align with my deepest values',
+            "I know my work serves something bigger than myself",
+            "I feel fulfilled by how I contribute to others",
+            "My daily actions align with my deepest values",
           ],
         },
       ],
       scoring: [
         {
-          range: '32-36',
-          level: 'Superpower Star',
-          interpretation: 'You are operating at your peak. Your core needs are being met, and you have the energy and clarity to thrive. Focus on maintaining this state and deepening your impact.',
+          range: "32-36",
+          level: "Superpower Star",
+          interpretation:
+            "You are operating at your peak. Your core needs are being met, and you have the energy and clarity to thrive. Focus on maintaining this state and deepening your impact.",
         },
         {
-          range: '24-31',
-          level: 'Rising Phoenix',
-          interpretation: 'You are on the right path, but there are gaps. Some needs are being met while others are neglected. Identify which areas need attention and prioritize them.',
+          range: "24-31",
+          level: "Rising Phoenix",
+          interpretation:
+            "You are on the right path, but there are gaps. Some needs are being met while others are neglected. Identify which areas need attention and prioritize them.",
         },
         {
-          range: '12-23',
-          level: 'Survival Mode',
-          interpretation: 'You are running on empty. Most of your core needs are unmet, and it\'s draining your energy. It\'s time for a reset—starting with awareness and intentional action.',
+          range: "12-23",
+          level: "Survival Mode",
+          interpretation:
+            "You are running on empty. Most of your core needs are unmet, and it's draining your energy. It's time for a reset—starting with awareness and intentional action.",
         },
       ],
     },
   };
 
-  const quiz = quizData[quizId] || quizData['quiz-1'];
-  const totalQuestions = quiz.sections.reduce((sum, section) => sum + section.questions.length, 0);
+  const quiz = quizData[currentQuizId] || quizData["quiz-1"];
+  const totalQuestions = quiz.sections.reduce(
+    (sum, section) => sum + section.questions.length,
+    0
+  );
   const maxScore = totalQuestions * 3;
 
   const handleScoreChange = (key: string, value: number) => {
@@ -104,7 +110,9 @@ export const Quiz = ({ quizId, onNavigate }: QuizProps) => {
   const handleCalculate = () => {
     const answeredQuestions = Object.keys(scores).length;
     if (answeredQuestions < totalQuestions) {
-      alert(`Please answer all ${totalQuestions} questions before calculating your score.`);
+      alert(
+        `Please answer all ${totalQuestions} questions before calculating your score.`
+      );
       return;
     }
     setShowModal(true);
@@ -113,17 +121,21 @@ export const Quiz = ({ quizId, onNavigate }: QuizProps) => {
   const handleSubmitEmail = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !firstName) {
-      alert('Please enter your name and email.');
+      alert("Please enter your name and email.");
       return;
     }
 
     const totalScore = calculateTotalScore();
     const scoringData = quiz.scoring.find((s) => {
-      const [min, max] = s.range.split('-').map(Number);
+      const [min, max] = s.range.split("-").map(Number);
       return totalScore >= min && totalScore <= max;
     });
 
-    onNavigate(`quiz-results?score=${totalScore}&level=${scoringData?.level || ''}&email=${email}&name=${firstName}`);
+    navigate(
+      `/quiz-results?score=${totalScore}&level=${
+        scoringData?.level || ""
+      }&email=${encodeURIComponent(email)}&name=${encodeURIComponent(firstName)}`
+    );
   };
 
   return (
@@ -132,19 +144,19 @@ export const Quiz = ({ quizId, onNavigate }: QuizProps) => {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <button
-              onClick={() => onNavigate('self-audits')}
+              onClick={() => navigate("/self-audits")}
               className="text-light/60 hover:text-white mb-8 transition-colors"
             >
               ← Back to Self-Audits
             </button>
 
             <div className="inline-block mb-6 px-6 py-2 border border-blue/30 rounded-full">
-              <span className="text-blue text-sm tracking-wide">Self-Assessment</span>
+              <span className="text-blue text-sm tracking-wide">
+                Self-Assessment
+              </span>
             </div>
 
-            <h1 className="text-hero text-white mb-6">
-              {quiz.title}
-            </h1>
+            <h1 className="text-hero text-white mb-6">{quiz.title}</h1>
 
             <p className="text-2xl text-light/80 mb-8 italic">
               "{quiz.description}"
@@ -167,14 +179,22 @@ export const Quiz = ({ quizId, onNavigate }: QuizProps) => {
         <div className="container-custom">
           <div className="max-w-4xl mx-auto space-y-12">
             {quiz.sections.map((section, sectionIndex) => (
-              <div key={sectionIndex} className="p-8 bg-light/5 border border-light/10">
-                <h2 className="text-2xl text-white mb-8 font-light">{section.title}</h2>
+              <div
+                key={sectionIndex}
+                className="p-8 bg-light/5 border border-light/10"
+              >
+                <h2 className="text-2xl text-white mb-8 font-light">
+                  {section.title}
+                </h2>
 
                 <div className="space-y-6">
                   {section.questions.map((question, questionIndex) => {
                     const key = `${sectionIndex}-${questionIndex}`;
                     return (
-                      <div key={key} className="pb-6 border-b border-light/10 last:border-0">
+                      <div
+                        key={key}
+                        className="pb-6 border-b border-light/10 last:border-0"
+                      >
                         <p className="text-light/80 mb-4">{question}</p>
                         <div className="flex gap-4">
                           {[1, 2, 3].map((value) => (
@@ -209,7 +229,10 @@ export const Quiz = ({ quizId, onNavigate }: QuizProps) => {
                 className="btn-primary text-lg group"
               >
                 Calculate My Superpower Score
-                <ArrowRight className="inline-block ml-2 group-hover:translate-x-1 transition-transform" size={20} />
+                <ArrowRight
+                  className="inline-block ml-2 group-hover:translate-x-1 transition-transform"
+                  size={20}
+                />
               </button>
             </div>
           </div>
@@ -236,7 +259,10 @@ export const Quiz = ({ quizId, onNavigate }: QuizProps) => {
 
             <form onSubmit={handleSubmitEmail} className="space-y-4">
               <div>
-                <label htmlFor="firstName" className="block text-light/80 mb-2 text-sm">
+                <label
+                  htmlFor="firstName"
+                  className="block text-light/80 mb-2 text-sm"
+                >
                   First Name
                 </label>
                 <input
@@ -251,7 +277,10 @@ export const Quiz = ({ quizId, onNavigate }: QuizProps) => {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-light/80 mb-2 text-sm">
+                <label
+                  htmlFor="email"
+                  className="block text-light/80 mb-2 text-sm"
+                >
                   Email Address
                 </label>
                 <input

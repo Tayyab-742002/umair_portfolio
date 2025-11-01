@@ -1,11 +1,9 @@
 import { useScrollReveal } from '../hooks/useScrollReveal';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 
-interface BlogProps {
-  onNavigate: (page: string) => void;
-}
-
-export const Blog = ({ onNavigate }: BlogProps) => {
+export const Blog = () => {
+  const navigate = useNavigate();
   return <div>Blog Page Under development</div>
   const heroRef = useScrollReveal();
 
@@ -186,7 +184,7 @@ export const Blog = ({ onNavigate }: BlogProps) => {
               Reading articles is a great start. But real transformation happens with personalized coaching.
             </p>
             <button
-              onClick={() => onNavigate('booking')}
+              onClick={() => navigate('/booking')}
               className="btn-primary"
             >
               Book a Free Clarity Call

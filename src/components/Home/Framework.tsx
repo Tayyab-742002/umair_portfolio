@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Brain, Zap, Target, Sparkles, ArrowRight } from "lucide-react";
 
 const HomeFrameworkSection = () => {
@@ -13,7 +14,7 @@ const HomeFrameworkSection = () => {
         if (entry.isIntersecting) {
           setIsVisible(true);
           if (videoRef.current) {
-            videoRef.current
+            (videoRef.current as HTMLVideoElement)
               .play()
               .catch((e) => console.log("Video autoplay failed:", e));
           }
@@ -37,9 +38,7 @@ const HomeFrameworkSection = () => {
     return () => clearInterval(interval);
   }, [isVisible]);
 
-  const onNavigate = (section) => {
-    console.log(`Navigate to: ${section}`);
-  };
+  const navigate = useNavigate();
 
   const pillars = [
     {
@@ -307,7 +306,7 @@ const HomeFrameworkSection = () => {
               </p>
             </div>
             <button
-              onClick={() => onNavigate("services")}
+              onClick={() => navigate("/services")}
               className="group px-8 md:px-10 py-4 md:py-5 bg-white text-black text-xs md:text-sm font-medium tracking-wide uppercase transition-all duration-300 hover:bg-white/90 flex-shrink-0 w-full md:w-auto"
             >
               <span className="flex items-center justify-center md:justify-start gap-3">
@@ -322,7 +321,7 @@ const HomeFrameworkSection = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes progress {
           0% {
             transform: translateX(-100%);
@@ -334,7 +333,7 @@ const HomeFrameworkSection = () => {
         .animate-progress {
           animation: progress 4s ease-in-out infinite;
         }
-      `}</style>
+      `}} />
     </section>
   );
 };

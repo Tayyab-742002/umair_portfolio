@@ -1,19 +1,12 @@
 import HomeHeroSection from "../components/Home/HeroSection";
-import { ArrowRight, Sparkles, Brain, Zap, Target } from "lucide-react";
-import { useScrollReveal } from "../hooks/useScrollReveal";
 import HomeProblemSection from "../components/Home/ProblemSection";
 import HomeFrameworkSection from "../components/Home/Framework";
 import HomeProofSection from "../components/Home/ProofSection";
 import HomeCTASection from "../components/Home/CtaSection";
 
-interface HomeProps {
-  onNavigate: (page: string) => void;
-}
-
-export const Home = ({ onNavigate }: HomeProps) => {
+export const Home = () => {
   // const problemRef = useScrollReveal();
   // const frameworkRef = useScrollReveal();
-  const proofRef = useScrollReveal();
 
   return (
     <div className="min-h-screen">
@@ -61,7 +54,7 @@ export const Home = ({ onNavigate }: HomeProps) => {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue/50 to-transparent" />
       </section> */}
 
-      <HomeHeroSection onNavigate={onNavigate} />
+      <HomeHeroSection />
       {/* Problem Section */}
       {/* <section ref={problemRef} className="section-padding fade-in">
         <div className="container-custom">
